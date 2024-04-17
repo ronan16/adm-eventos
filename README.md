@@ -1,8 +1,14 @@
-# React + Vite
+# IFAdmin
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ Sistema de Administração de Site de Eventos para o IFPR - Campus Ivaiporã
 
-Currently, two official plugins are available:
+ Para executar, primeiro faça o clone do projeto:
+    git clone https://github.com/ronan16/adm-eventos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Instale as Dependências:
+    npm install
+
+Execute o projeto:
+    npm run dev
+
+ 
