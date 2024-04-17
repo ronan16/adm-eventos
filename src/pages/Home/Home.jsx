@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 
 const Home = () => {
- const { userName, setIsAuthenticated } = useContext(AuthContext);
+ const { nome, setIsAuthenticated } = useContext(AuthContext);
  const navigate = useNavigate();
 
  const handleLogout = () => {
@@ -16,7 +16,7 @@ const Home = () => {
     <div>
       <header>
         <nav>
-          <div>Logo da Empresa</div>
+          <div>{nome}</div>
           <div>
             <button onClick={() => navigate('/home')}>Início</button>
             <button onClick={() => navigate('/palestrantes')}>Palestrantes</button>

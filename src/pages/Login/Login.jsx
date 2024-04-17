@@ -2,31 +2,58 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { db, auth } from '../../database/firebaseConfig';
+import { doc, getDoc } from "firebase/firestore";
 
 const Login = () => {
  const { setIsAuthenticated, setUserName } = useContext(AuthContext);
  const navigate = useNavigate();
 
  // Estado para gerenciar os valores dos campos do formulário
- const [formValues, setFormValues] = useState({
-   email: '',
-   senha: '',
+ const [login, setLogin] = useState({
+    email: '',
+    senha: '',
+    nome: '',
  });
 
  // Função para lidar com as mudanças nos campos do formulário
- const handleChange = (e) => {
-   const { name, value } = e.target;
-   setFormValues({ ...formValues, [name]: value });
+ const mudaLogin = (e) => {
+    const { name, value } = e.target;
+    setLogin({ ...login, [name]: value });
  };
 
- const handleLogin = () => {
-    // Aqui você pode adicionar a lógica de validação e login do usuário
-    // Por exemplo, verificar se o e-mail e a senha correspondem a um usuário válido
-    // Simulação de login bem-sucedido
-    setIsAuthenticated(true);
-    setUserName('Nome do Usuário'); // Atualiza o nome do usuário
-    navigate('/home'); // Redireciona para a Home
+ const fazerLogin = async () => { // Torna a função assíncrona
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, login.email, login.senha);
+      // Signed in 
+      const user = userCredential.user;
+      await buscarUsuario(); // Aguarda a busca do usuário
+    
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error("Erro ao fazer login:", errorCode, errorMessage);
+    }
  };
+
+ const buscarUsuario = async () => {
+  const docRef = doc(db, "usuarios", login.email);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    const userData = docSnap.data(); // Obtenha os dados do usuário
+    setLogin(userData); // Atualize o estado com os dados do usuário
+    console.log(userData.nome); // Use os dados diretamente
+
+    setIsAuthenticated(true);
+    setUserName(userData.nome); // Atualize o nome do usuário com os dados diretamente
+    navigate('/home'); // Redireciona para a Home
+  } else {
+    console.log("No such document!");
+  }
+}
+
 
  return (
     <div>
@@ -34,13 +61,13 @@ const Login = () => {
       <form>
         <label>
           E-mail:
-          <input type="email" name="email" value={formValues.email} onChange={handleChange} />
+          <input type="email" name="email" value={login.email} onChange={mudaLogin} />
         </label>
         <label>
           Senha:
-          <input type="password" name="senha" value={formValues.senha} onChange={handleChange} />
+          <input type="password" name="senha" value={login.senha} onChange={mudaLogin} />
         </label>
-        <button type="button" onClick={handleLogin}>Entrar</button>
+        <button type="button" onClick={fazerLogin}>Entrar</button>
       </form>
     </div>
  );
