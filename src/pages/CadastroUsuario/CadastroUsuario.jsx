@@ -7,7 +7,7 @@ import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { db } from '../../database/firebaseConfig';
 
 const CadastroUsuario = () => {
-  const { setIsAuthenticated, setUserName } = useContext(AuthContext);
+  const { setIsAuthenticated, setNomeUsuario } = useContext(AuthContext);
   const navigate = useNavigate();
 
   // Estado para gerenciar os valores dos campos do formulário
@@ -23,7 +23,7 @@ const CadastroUsuario = () => {
     const { name, value } = e.target;
     setUsuario({ ...usuario, [name]: value });
   };
-  const criaUsuario = () =>{
+  const criaUsuario = () => {
     if (usuario.senha !== usuario.confirmarSenha) {
       alert('As senhas não coincidem');
       return;
@@ -44,35 +44,16 @@ const CadastroUsuario = () => {
       });
 
   }
-  const cadastroUsuario = async () => {   
+  const cadastroUsuario = async () => {
     //Grava no Firebase 
     try {
-      const resultado = await setDoc(doc(db, "usuarios", usuario.email),
-        usuario
+      await setDoc(doc(db, "usuarios", usuario.email), usuario
       );
-      console.log("ID RESULTADO: " + resultado.id)
-
-      //Criar usuario autenticado
-      const auth = getAuth();
-      createUserWithEmailAndPassword(
-        auth,
-        usuario.email, usuario.senha)
-
-        .then((userCredential) => {
-          const user = userCredential.user;
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-        });
     } catch (e) {
       console.log("Erro: " + e)
     }
-
-
-
-    setIsAuthenticated(true);
-    setUserName(usuario.nome); // Atualiza o nome do usuário
+    //setIsAuthenticated(true);
+    setNomeUsuario(usuario.nome); // Atualiza o nome do usuário
     navigate('/home'); // Redireciona para a Home
   };
 

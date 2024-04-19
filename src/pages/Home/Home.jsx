@@ -4,19 +4,19 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 
 const Home = () => {
- const { nome, setIsAuthenticated } = useContext(AuthContext);
- const navigate = useNavigate();
+  const { nomeUsuario, setIsAuthenticated } = useContext(AuthContext);
+  const navigate = useNavigate();
 
- const handleLogout = () => {
+  const handleLogout = () => {
     setIsAuthenticated(false);
     navigate('/login'); // Redireciona para o Login
- };
+  };
 
- return (
+  return (
     <div>
       <header>
         <nav>
-          <div>{nome}</div>
+          <div>{nomeUsuario}</div>
           <div>
             <button onClick={() => navigate('/home')}>Início</button>
             <button onClick={() => navigate('/palestrantes')}>Palestrantes</button>
@@ -29,7 +29,7 @@ const Home = () => {
       </div>
       {/* Conteúdo principal da Home aqui */}
     </div>
- );
+  );
 };
 
 export default Home;
