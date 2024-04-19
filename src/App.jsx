@@ -3,7 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import Login from './pages/Login/Login';
-import Home from './pages/CadastroPalestra/CadastroPalestra';
+import CadastroPalestra from './pages/CadastroPalestra/CadastroPalestra';
 import CadastroUsuario from './pages/CadastroUsuario/CadastroUsuario';
 import RotaProtegida from './components/RotaProtegida';
 
@@ -12,9 +12,9 @@ const App = () => {
     <AuthProvider>
       <Router>
         <Routes>
-          <Route index path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
           <Route path="/cadastro" element={<CadastroUsuario />} />
-          <Route path="/" element={<RotaProtegida><Home /></RotaProtegida>} />
+          <Route path="/palestra" element={<RotaProtegida><CadastroPalestra /></RotaProtegida>} />
         </Routes>
       </Router>
     </AuthProvider>
