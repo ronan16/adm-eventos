@@ -14,12 +14,16 @@ const CadastroUsuario = () => {
     const { name, value } = e.target;
     setFormulario({ ...formulario, [name]: value })
   }
+  const meuSubmit = (e) => {
+    e.preventDefault()
+    console.log(formulario)
+  }
 
 
   return (
     <div>
       <h2>Cadastro de Usuário</h2>
-      <form>
+      <form onSubmit={meuSubmit}>
         <label htmlFor='nome' >Nome</label>
         <input type='text' id="nome" name='nome'
           value={formulario.nome}
